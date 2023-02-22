@@ -6,7 +6,7 @@ import './index.css'
 const Header = () => {
   return (
     <>
-      {/*Navbar items*/}
+      {/*Navbar items.....*/}
       <nav className="navbar navbar-expand-lg bg-primary" style={{position: "fixed", top: "0", zIndex: "100", width: "100%"}}>
         <div className="container-fluid">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqkDNlPp2adb3ElGmfUb8uAq5uf0SehohOQ&usqp=CAU" style={{ width: "150px", height: "40px" }} alt="logo" />
