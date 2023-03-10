@@ -3,7 +3,8 @@ import { MarketplaceHomePage, UserProfile } from './Marketplace/AppPage';
 import { LocalCar, OutstationCar, AirportCar } from './Marketplace/CarType.jsx';
 import './index.css'
 import { useEffect, useState } from 'react';
-import { useGetBookingDataQuery, useGetBookingDataByIdQuery, useCreateBookingMutation, useUpdateBookingMutation } from './Service/bookingOperation';
+import { useGetBookingDataQuery, useGetBookingDataByIdQuery, useCreateBookingMutation, useUpdateBookingToConfirmMutation, useUpdateBookingToCancelMutation } from './Service/bookingOperation';
+import {useAdminUserLoginMutation} from './Service/adminUserOperation'
 
 const Header = () => {
   return (
@@ -34,10 +35,10 @@ const HeaderAdmin = () => {
               <Link to="/admin-new-booking" class="nav-link" aria-current="page" style={{ color: "white" }}>New</Link>
             </li>
             <li class="nav-item">
-              <Link to="/admin-confirmed-booking" class="nav-link" style={{ color: "white" }}>Confirmed</Link>
+              <Link to="/admin-confirmed-booking" class="nav-link" style={{ color: "white" }} >Confirmed</Link>
             </li>
             <li class="nav-item">
-              <Link to="/admin-cancelled-booking" class="nav-link" style={{ color: "white" }}>Cancelled</Link>
+              <Link to="/admin-cancelled-booking" class="nav-link" style={{ color: "white" }} >Cancelled</Link>
             </li>
           </ul>
         </div>
@@ -47,6 +48,19 @@ const HeaderAdmin = () => {
 }
 
 const Footer = () => {
+  const [loginData, setloginData] = useState()
+  function store_data(e){
+    let {id, value} = e.target;
+    setloginData((prev) =>{
+      return {...prev, [id]: value}
+    })
+  }
+
+  const [userLogin, response] = useAdminUserLoginMutation()
+  function login(){
+    userLogin(loginData)
+  }
+
   return (
     <>
       {/*User signin form modal*/}
@@ -61,18 +75,14 @@ const Footer = () => {
 
               {/*User Signin Form*/}
               <div class="mb-2">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" onChange={store_data}/>
               </div>
               <div class="mb-2">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" />
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" onChange={store_data}/>
               </div>
-              <div class="mb-2 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                <label class="form-check-label" for="exampleCheck1">Remember me</label>
-              </div>
-              <Link to="/admin-new-booking"><button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Signin</button></Link>
+              <Link to="/admin-new-booking"><button type="submit" class="btn btn-primary" data-bs-dismiss="modal" onClick={login}>Signin</button></Link>
             </div>
           </div>
         </div>
@@ -128,14 +138,56 @@ const Footer = () => {
   )
 }
 
+const FooterAdmin = () => {
+  return (
+    <>
+      {/*User signin form modal*/}
+      <div className="modal fade" id="adminLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "30%", left: "30%" }}>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5>Logout</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              Are you sure, you want to logout?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-{breakpoint} my-6">
+        <footer class="text-white text-center text-lg-start bg-primary">
+          <div class="text-center p-3" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
+            © 2023 Copyright:
+            <a class="text-white" href="/">Mandal Cab Service</a><br/>
+            <a class="text-white" href="/" data-bs-toggle="modal" data-bs-target="#adminLogout">Logout</a>
+          </div>
+        </footer>
+      </div>
+    </>
+  )
+}
+
 function HomePage() {
+  const [bookingInput, setbookingInput] = useState()
+  function store_data(e){
+    let {id, value} = e.target;
+    setbookingInput((prev) =>{
+      return {...prev, [id]: value}
+    })
+  }
   const [newBooking, bookingResponse] = useCreateBookingMutation()
   let data = {
-    userId: 1,
-    title: "Santu Baba",
-    body: "Santosh Kumar Ji Rumpas Office"
+    customer_name: bookingInput ? bookingInput.name : "",
+    customer_mobile: bookingInput ? bookingInput.mobile : "",
+    pickup_address: bookingInput ? bookingInput.pickup_address : "",
+    drop_address: bookingInput ? bookingInput.drop_address : "",
+    travel_date: bookingInput ? bookingInput.travel_date : "",
+    pickup_time: bookingInput ? bookingInput.pickup_time : "",
+    car_type: bookingInput ? bookingInput.car_type : ""
   }
-  console.log('bookingResponse', bookingResponse)
+
   return (
     <>
       {/*Modal for booking confirmation message*/}
@@ -146,8 +198,8 @@ function HomePage() {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>{return window.location.reload()}}></button>
             </div>
             <div className="modal-body">
-              You have successfully booked your cab. Your booking id is - ABC123456. Thank you for your booking.
-              <button type="button" className="btn-primary" onClick={()=>{newBooking(data)}}>Create</button>
+              You have successfully booked your cab. Your booking id is - ABC123456. Thank you for your booking.<br/><br/>
+              <button type="button" className="btn btn-primary">OK</button>
             </div>
           </div>
         </div>
@@ -163,49 +215,49 @@ function HomePage() {
             <div className="row mb-2">
               <label for="name" className="col-sm-5" style={{ color: "black" }}><b>Your Name</b></label>
               <div className="col-sm-15">
-                <input type="text" className="form-control" id="name" placeholder="Enter your name" />
+                <input type="text" className="form-control" id="name" placeholder="Enter your name" required onChange={store_data}/>
               </div>
             </div>
 
             <div className="row mb-2">
               <label for="mobile" className="col-sm-5 col-form-label" style={{ color: "black" }}><b>Your Mobile</b></label>
               <div className="col-sm-15">
-                <input type="text" className="form-control" id="mobile" placeholder="Enter your mobile number" />
+                <input type="text" className="form-control" id="mobile" placeholder="Enter your mobile number" required onChange={store_data}/>
               </div>
             </div>
 
             <div className="row mb-2">
               <label for="pickup_address" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Address</b></label>
               <div className="col-sm-15">
-                <input type="text" className="form-control" id="pickup_address" placeholder="Enter your pickup address" />
+                <input type="text" className="form-control" id="pickup_address" placeholder="Enter your pickup address" required onChange={store_data}/>
               </div>
             </div>
 
             <div className="row mb-2">
               <label for="drop_address" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Drop Address</b></label>
               <div className="col-sm-15">
-                <input type="text" className="form-control" id="drop_address" placeholder="Enter your drop address" />
+                <input type="text" className="form-control" id="drop_address" placeholder="Enter your drop address" required onChange={store_data}/>
               </div>
             </div>
 
             <div className="row mb-2">
               <label for="travel_date" className="col-sm-5 col-form-label" style={{ color: "black" }}><b>Travel Date</b></label>
               <div className="col-sm-15">
-                <input type="date" className="form-control" id="travel_date" />
+                <input type="date" className="form-control" id="travel_date" required onChange={store_data}/>
               </div>
             </div>
 
             <div className="row mb-2">
               <label for="pickup_time" className="col-sm-5 col-form-label" style={{ color: "black" }}><b>Pickup Time</b></label>
               <div className="col-sm-15">
-                <input type="time" className="form-control" id="pickup_time" />
+                <input type="time" className="form-control" id="pickup_time" required onChange={store_data}/>
               </div>
             </div>
 
             <div className="row mb-2">
               <label for="car_type" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Select Your Favourite Car</b></label>
               <div className="col-sm-15">
-                <select id="car_type">
+                <select id="car_type" required onChange={store_data}>
                   <option selected>Select</option>
                   <option>Suzuki Wagonr</option>
                   <option>Hyundai Aura</option>
@@ -214,7 +266,7 @@ function HomePage() {
                 </select>
               </div>
             </div><br />
-            <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingConfirmationMessage">Confirm</button></Link>
+            <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingConfirmationMessage" onClick={()=>{newBooking(data)}}>Confirm</button></Link>
           </form>
         </div>
       </div><br /><hr style={{ marginTop: "-20px", marginBottom: "3px" }} />
@@ -228,7 +280,7 @@ function NewBooking() {
   const [val, newVal] = useState("")
   const [confirmData, setConfirmData] = useState()
   const [cancelData, setCancelData] = useState()
-  const [pageNum, setPageNum] = useState(0)
+  const [pageNum, setPageNum] = useState(1)
   
   function confirmInput(e){
     let {id, value} = e.target;
@@ -244,37 +296,50 @@ function NewBooking() {
     })
   }
 
-  let updationData ={
-    id: val,
-    title: cancelData?cancelData.reason:""
+  let confirmationData ={
+    booking_id: val,
+    new_status: "Confirm",
+    driver_name: confirmData?confirmData.name:"",
+    driver_mobile: confirmData?confirmData.mobile:"",
+    estimated_fare: confirmData?confirmData.fare:""
   }
 
   let cancellationData ={
-    id: val,
-    title: confirmData?confirmData.name:"",
-    body: confirmData?confirmData.fare:"",
-    userId: 1
+    booking_id: val,
+    new_status: "Cancel",
+    cancellation_reason: cancelData?cancelData.resaon:""
+  }
+
+  const [updateData, response] = useUpdateBookingToConfirmMutation()
+  const [cancelledData, resp] = useUpdateBookingToCancelMutation()
+  function confirmClick(){
+    updateData(confirmationData)
+  }
+
+  function cancelClick(){
+    cancelledData(cancellationData)
+  }
+
+  let getBookingParams = {
+    page: pageNum,
+    limit: 10,
+    status: "New"
   }
   
-  const bookingData = useGetBookingDataQuery()
+  const bookingData = useGetBookingDataQuery(getBookingParams)
   const fetchedData = bookingData.data
   
   function getDocId(e){
     let bc = e.target.value 
     newVal(bc)
   }
-console.log('val id',val)
-  const bookingDataById = useGetBookingDataByIdQuery(val)
-  console.log('bookingDataById',bookingDataById)
-  const [updateData, response] = useUpdateBookingMutation()
-  const [cancelledData, resp] = useUpdateBookingMutation()
-  function confirmClick(){
-    updateData(updationData)
-  }
 
-  function cancelClick(){
-    cancelledData(cancellationData)
+  let getBookingParamsForId = {
+    status: "New",
+    booking_id: val
   }
+  const bookingDataById = useGetBookingDataByIdQuery(getBookingParamsForId)
+  
 if(bookingData.isLoading){
   return (
     <div class="text-center">
@@ -284,20 +349,18 @@ if(bookingData.isLoading){
 </div>
   )
 }
-let itemPerPage = 10
-  let totalItems = fetchedData.getSector.length
+  let itemPerPage = 10
+  let totalItems = fetchedData.newBookingData.length
   let totalPages = Math.ceil(totalItems/itemPerPage)
-  console.log('totalPages', totalPages)
   let pageNumber = []
   for(let i = 1; i < totalPages+1; i++){
-    console.log('page number',i)
     pageNumber.push(i)
   }
   function getPageNum(e){
     let pageNumber = e.target.innerHTML
     setPageNum(pageNumber)
   }
-  console.log('pagenum', pageNum)
+
   return (
     <>
       {/*Modal for additional details on booking confirmation status change*/}
@@ -390,7 +453,7 @@ let itemPerPage = 10
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5>Booking id - {bookingDataById.data && bookingDataById.data.id}</h5>
+              <h5>Booking id - {bookingDataById.data && bookingDataById.data.newBookingData.booking_id}</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -398,54 +461,54 @@ let itemPerPage = 10
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Booking Date</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>20th Feb 2023</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.booking_date}</label>
                   </div>
                 </div>
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Customer Name</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>Santosh Kumar</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.customer_name}</label>
                   </div>
                 </div>
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Customer Mobile</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>9717069846</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.customer_mobile}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Address</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.body}</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.pickup_address}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Drop Address</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.title}</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.drop_address}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Travel Date</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>25th Feb 2023</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.travel_date}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Time</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>10:15pm</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.pickup_time}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Preferred Car</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>Hyundai Aura</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.favourite_car}</label>
                   </div>
                 </div><br />
                 <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#additionalDetailsForBookingStatusChangeToConfirm" style={{ width: "40%", marginLeft: "10px" }}>Confirm</button></Link>
@@ -470,14 +533,14 @@ let itemPerPage = 10
           </tr>
         </thead>
         <tbody>
-        {fetchedData && fetchedData.getSector.length > 0 && fetchedData.getSector.map((item, i)=> (
+        {fetchedData && fetchedData.newBookingData.length > 0 && fetchedData.newBookingData.map((item, i)=> (
           <tr key={i+1}>
             <th scope="row">{i+1}</th>
-            <td>{item._id}</td>
-            <td>{item.sector_name.en}</td>
-            <td>{item.sector_name.hi}</td>
-            <td>{item.mapped_project}</td>
-            <td><button data-bs-toggle="modal" data-bs-target="#bookingDetails" value={item._id} onClick={getDocId}>View</button></td>
+            <td>{item.customer_name}</td>
+            <td>{item.customer_mobile}</td>
+            <td>{item.travel_date}</td>
+            <td>{item.favourite_car}</td>
+            <td><button data-bs-toggle="modal" data-bs-target="#bookingDetails" value={item.id} onClick={getDocId}>View</button></td>
           </tr>
           ))}
         </tbody>
@@ -489,7 +552,8 @@ let itemPerPage = 10
           <li class="page-item" onClick={getPageNum}><Link className="page-link" >{item}</Link></li>
           ))}
         </ul>
-      </nav>
+      </nav><br/><br/>
+      <FooterAdmin/>
       
     </>
   )
@@ -767,4 +831,4 @@ function PagesRouter() {
   )
 }
 
-export { HomePage, PagesRouter, Header, Footer, HeaderAdmin, NewBooking, ConfirmedBooking, CancelledBooking };
+export { HomePage, PagesRouter, Header, Footer, HeaderAdmin, NewBooking, ConfirmedBooking, CancelledBooking, FooterAdmin };
