@@ -1,4 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+let authorizationToken = localStorage.getItem('token')
 
 //api slice
 export const adminUserApi = createApi({
@@ -14,21 +15,20 @@ export const adminUserApi = createApi({
                     method: 'POST',
                     body: bodyData,
                     headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDA3MGQ0Y2NmOGUwZjg3ZGZhNWE4ZDIiLCJpYXQiOjE2NzgyNzc1MjgsImV4cCI6MTY3ODM2MzkyOH0.s-TBiMgE_ezWUzvOjiAdxCyM_oq1ejIdXQQ6O5sjLyI'
-                }
+                        'Content-type': 'application/json'
+                    }
                 }
             }
         }),
 
-        adminUserLogout: builder.query({
+        adminUserLogout: builder.mutation({
             query: (params)=>{
                 return {
                     url: `admin-logout`,
                     method: 'GET',
                     headers: {
                     'Content-type': 'application/json',
-                    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDA3MGQ0Y2NmOGUwZjg3ZGZhNWE4ZDIiLCJpYXQiOjE2NzgyNzc1MjgsImV4cCI6MTY3ODM2MzkyOH0.s-TBiMgE_ezWUzvOjiAdxCyM_oq1ejIdXQQ6O5sjLyI'
+                    'Authorization': authorizationToken?authorizationToken:""
                 }
                 }
             }
@@ -40,8 +40,7 @@ export const adminUserApi = createApi({
                 method: 'POST',
                 body: bodyData,
                 headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDA3MGQ0Y2NmOGUwZjg3ZGZhNWE4ZDIiLCJpYXQiOjE2NzgyNzc1MjgsImV4cCI6MTY3ODM2MzkyOH0.s-TBiMgE_ezWUzvOjiAdxCyM_oq1ejIdXQQ6O5sjLyI'
+                    'Content-type': 'application/json'
                 }
             })
         }),
@@ -54,7 +53,7 @@ export const adminUserApi = createApi({
                     body: bodyData,
                     headers: {
                     'Content-type': 'application/json',
-                    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDA3MGQ0Y2NmOGUwZjg3ZGZhNWE4ZDIiLCJpYXQiOjE2NzgyNzc1MjgsImV4cCI6MTY3ODM2MzkyOH0.s-TBiMgE_ezWUzvOjiAdxCyM_oq1ejIdXQQ6O5sjLyI'
+                    'Authorization': authorizationToken?authorizationToken:""
                 }
                 }
             }
@@ -63,4 +62,4 @@ export const adminUserApi = createApi({
 })
 
 //creating and exporting hook for api endpoint
-export const {useAdminUserLoginMutation, useAdminUserLogoutQuery, useCreateAdminUserMutation, useResetAdminPasswordMutation} = adminUserApi
+export const {useAdminUserLoginMutation, useAdminUserLogoutMutation, useCreateAdminUserMutation, useResetAdminPasswordMutation} = adminUserApi

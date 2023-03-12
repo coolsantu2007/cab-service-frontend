@@ -1,4 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+let authorizationToken = localStorage.getItem('token')
 
 //api slice
 export const bookingApi = createApi({
@@ -15,13 +16,13 @@ export const bookingApi = createApi({
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDA3MGQ0Y2NmOGUwZjg3ZGZhNWE4ZDIiLCJpYXQiOjE2NzgyNzc1MjgsImV4cCI6MTY3ODM2MzkyOH0.s-TBiMgE_ezWUzvOjiAdxCyM_oq1ejIdXQQ6O5sjLyI'
+                    'Authorization': authorizationToken?authorizationToken:""
                 }
                 }
             }
         }),
 
-        getBookingDataById: builder.query({//using 'query' to get data
+        getBookingDataById: builder.mutation({//using 'query' to get data
             query: (params)=>{
                 const {status, booking_id} = params
                 return {
@@ -29,7 +30,7 @@ export const bookingApi = createApi({
                     method: 'GET',
                     headers: {
                     'Content-type': 'application/json',
-                    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDA3MGQ0Y2NmOGUwZjg3ZGZhNWE4ZDIiLCJpYXQiOjE2NzgyNzc1MjgsImV4cCI6MTY3ODM2MzkyOH0.s-TBiMgE_ezWUzvOjiAdxCyM_oq1ejIdXQQ6O5sjLyI'
+                    'Authorization': authorizationToken?authorizationToken:""
                 }
                 }
             }
@@ -42,7 +43,7 @@ export const bookingApi = createApi({
                 body: bodyData,
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDA3MGQ0Y2NmOGUwZjg3ZGZhNWE4ZDIiLCJpYXQiOjE2NzgyNzc1MjgsImV4cCI6MTY3ODM2MzkyOH0.s-TBiMgE_ezWUzvOjiAdxCyM_oq1ejIdXQQ6O5sjLyI'
+                    'Authorization': authorizationToken?authorizationToken:""
                 }
             })
         }),
@@ -55,7 +56,7 @@ export const bookingApi = createApi({
                     body: bodyData,
                     headers: {
                     'Content-type': 'application/json',
-                    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDA3MGQ0Y2NmOGUwZjg3ZGZhNWE4ZDIiLCJpYXQiOjE2NzgyNzc1MjgsImV4cCI6MTY3ODM2MzkyOH0.s-TBiMgE_ezWUzvOjiAdxCyM_oq1ejIdXQQ6O5sjLyI'
+                    'Authorization': authorizationToken?authorizationToken:""
                 }
                 }
             }
@@ -69,7 +70,7 @@ export const bookingApi = createApi({
                     body: bodyData,
                     headers: {
                     'Content-type': 'application/json',
-                    'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDA3MGQ0Y2NmOGUwZjg3ZGZhNWE4ZDIiLCJpYXQiOjE2NzgyNzc1MjgsImV4cCI6MTY3ODM2MzkyOH0.s-TBiMgE_ezWUzvOjiAdxCyM_oq1ejIdXQQ6O5sjLyI'
+                    'Authorization': authorizationToken?authorizationToken:""
                 }
                 }
             }
@@ -78,4 +79,4 @@ export const bookingApi = createApi({
 })
 
 //creating and exporting hook for api endpoint
-export const {useGetBookingDataQuery, useGetBookingDataByIdQuery, useCreateBookingMutation, useUpdateBookingToConfirmMutation, useUpdateBookingToCancelMutation} = bookingApi
+export const {useGetBookingDataQuery, useGetBookingDataByIdMutation, useCreateBookingMutation, useUpdateBookingToConfirmMutation, useUpdateBookingToCancelMutation} = bookingApi
