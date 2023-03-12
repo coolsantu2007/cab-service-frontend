@@ -1,10 +1,13 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { MarketplaceHomePage, UserProfile } from './Marketplace/AppPage';
 import { LocalCar, OutstationCar, AirportCar } from './Marketplace/CarType.jsx';
 import './index.css'
-import { useEffect, useState } from 'react';
-import { useGetBookingDataQuery, useGetBookingDataByIdQuery, useCreateBookingMutation, useUpdateBookingToConfirmMutation, useUpdateBookingToCancelMutation } from './Service/bookingOperation';
-import {useAdminUserLoginMutation} from './Service/adminUserOperation'
+import { useState } from 'react';
+import { useGetBookingDataQuery, useGetBookingDataByIdMutation, useCreateBookingMutation, useUpdateBookingToConfirmMutation, useUpdateBookingToCancelMutation } from './Service/bookingOperation';
+import {useAdminUserLoginMutation, useAdminUserLogoutMutation} from './Service/adminUserOperation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import LoginDecorator from './LoginDecorator';
 
 const Header = () => {
   return (
@@ -49,6 +52,9 @@ const HeaderAdmin = () => {
 
 const Footer = () => {
   const [loginData, setloginData] = useState()
+  const [userLogin, response] = useAdminUserLoginMutation()
+  const navigate = useNavigate()
+  
   function store_data(e){
     let {id, value} = e.target;
     setloginData((prev) =>{
@@ -56,18 +62,20 @@ const Footer = () => {
     })
   }
 
-  const [userLogin, response] = useAdminUserLoginMutation()
-  function login(){
-    userLogin(loginData)
+  if(response.status === "fulfilled"){
+    if(response.data.code === 200 && response.data.status === "success"){
+      localStorage.setItem('token', response.data.admindata.token)
+      navigate('/admin-new-booking')
+      window.location.reload('/admin-new-booking')
+    }
   }
-
   return (
     <>
       {/*User signin form modal*/}
       <div className="modal fade" id="adminSignInForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "50%", left: "20%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
+            <div className="modal-header" style={{backgroundColor: "green", color: "white"}}>
               <h5>Sign in to your account</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -82,12 +90,25 @@ const Footer = () => {
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" onChange={store_data}/>
               </div>
-              <Link to="/admin-new-booking"><button type="submit" class="btn btn-primary" data-bs-dismiss="modal" onClick={login}>Signin</button></Link>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => {
+                userLogin(loginData)
+                toast.success('Successfully loggedin')}}>Signin</button>
             </div>
           </div>
         </div>
       </div>
-
+<ToastContainer 
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="colored"
+/>
       <div class="container-{breakpoint} my-6">
         <footer class="text-white text-center text-lg-start bg-primary">
           <div class="container p-4">
@@ -130,7 +151,7 @@ const Footer = () => {
           </div>
           <div class="text-center p-3" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
             © 2023 Copyright:
-            <a class="text-white" href="/">Mandal Cab Service</a>
+            <a class="text-white" href="/" style={{marginLeft: "5px"}}>egcab.com</a>
           </div>
         </footer>
       </div>
@@ -139,29 +160,57 @@ const Footer = () => {
 }
 
 const FooterAdmin = () => {
+  const navigate = useNavigate()
+  const [adminLogout, logoutResponse] = useAdminUserLogoutMutation()
+
+  if(logoutResponse.status === "fulfilled"){
+    if(logoutResponse.data.code === 200){
+      localStorage.clear('token')
+      navigate('/')
+    }
+  }
   return (
     <>
       {/*User signin form modal*/}
-      <div className="modal fade" id="adminLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "30%", left: "30%" }}>
+      <div className="modal fade" id="adminLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "40%", left: "30%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
+            <div className="modal-header" style={{backgroundColor: "red", color: "white"}}>
               <h5>Logout</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              Are you sure, you want to logout?
+              <p style={{marginLeft: "15px"}}>Are you sure, you want to logout?</p>
+              <div style={{display: "flex"}}>
+              <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => {
+                adminLogout()
+                toast.success('Successfully loggedout')
+                }} style={{width: "30%", marginLeft: "10px"}}>Yes</button>
+              <button type="button" className="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" style={{width: "30%", marginLeft: "10px"}}>No</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <ToastContainer 
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="colored"
+/>
 
       <div class="container-{breakpoint} my-6">
         <footer class="text-white text-center text-lg-start bg-primary">
           <div class="text-center p-3" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
             © 2023 Copyright:
-            <a class="text-white" href="/">Mandal Cab Service</a><br/>
-            <a class="text-white" href="/" data-bs-toggle="modal" data-bs-target="#adminLogout">Logout</a>
+            <a class="text-white" href="/" style={{marginLeft: "5px"}}>egcab.com</a><br/>
+            <a class="text-white" href="/" data-bs-toggle="modal" data-bs-target="#adminLogout" onClick={()=>{}}>Logout</a>
           </div>
         </footer>
       </div>
@@ -171,21 +220,13 @@ const FooterAdmin = () => {
 
 function HomePage() {
   const [bookingInput, setbookingInput] = useState()
+  const [newBooking, bookingResponse] = useCreateBookingMutation()
+
   function store_data(e){
     let {id, value} = e.target;
     setbookingInput((prev) =>{
       return {...prev, [id]: value}
     })
-  }
-  const [newBooking, bookingResponse] = useCreateBookingMutation()
-  let data = {
-    customer_name: bookingInput ? bookingInput.name : "",
-    customer_mobile: bookingInput ? bookingInput.mobile : "",
-    pickup_address: bookingInput ? bookingInput.pickup_address : "",
-    drop_address: bookingInput ? bookingInput.drop_address : "",
-    travel_date: bookingInput ? bookingInput.travel_date : "",
-    pickup_time: bookingInput ? bookingInput.pickup_time : "",
-    car_type: bookingInput ? bookingInput.car_type : ""
   }
 
   return (
@@ -194,12 +235,19 @@ function HomePage() {
       <div className="modal fade" id="bookingConfirmationMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
+            <div className="modal-header" style={{backgroundColor: "green", color: "white"}}>
+            <h5>Booking Status</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>{return window.location.reload()}}></button>
             </div>
             <div className="modal-body">
-              You have successfully booked your cab. Your booking id is - ABC123456. Thank you for your booking.<br/><br/>
-              <button type="button" className="btn btn-primary">OK</button>
+              {bookingResponse.isLoading === true && <div class="text-center">
+                <div class="spinner-border m-5 text-primary" role="status">
+                  <span class="sr-only"></span>
+                </div>
+              </div>}
+            {bookingResponse.status === "fulfilled" && <h6>You have successfully booked your cab. Your booking request has been sent. EG Cab representative will contact you soon. Thank you for your cab booking with.</h6>}
+              <br/><br/>
+              <button type="button" className="btn btn-primary" onClick={()=>{return window.location.reload()}}>CLOSE</button>
             </div>
           </div>
         </div>
@@ -209,7 +257,7 @@ function HomePage() {
       <div id="form">
       <div class="bg-img">
         <div style={{ display: "flex" }}>
-          <h2 style={{ marginLeft: "12%", marginTop: "15%", color: "black" }}><b><i>अपनी पसंदीदा कैब यहां बुक करें.</i></b></h2>
+          {/* <h2 style={{ marginLeft: "12%", marginTop: "15%", color: "black" }}><b><i>अपनी पसंदीदा कैब यहां बुक करें.</i></b></h2> */}
           <form class="form-container">
             <h1 style={{ textAlign: "center", fontSize: "20px", color: "blue" }}><u><b>Book Cab</b></u></h1><br />
             <div className="row mb-2">
@@ -266,7 +314,17 @@ function HomePage() {
                 </select>
               </div>
             </div><br />
-            <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingConfirmationMessage" onClick={()=>{newBooking(data)}}>Confirm</button></Link>
+            <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingConfirmationMessage" onClick={()=>{
+              newBooking({
+                customer_name: bookingInput ? bookingInput.name : "",
+                customer_mobile: bookingInput ? bookingInput.mobile : "",
+                pickup_address: bookingInput ? bookingInput.pickup_address : "",
+                drop_address: bookingInput ? bookingInput.drop_address : "",
+                travel_date: bookingInput ? bookingInput.travel_date : "",
+                pickup_time: bookingInput ? bookingInput.pickup_time : "",
+                car_type: bookingInput ? bookingInput.car_type : ""
+              })
+              }}>Confirm</button></Link>
           </form>
         </div>
       </div><br /><hr style={{ marginTop: "-20px", marginBottom: "3px" }} />
@@ -277,7 +335,7 @@ function HomePage() {
 }
 
 function NewBooking() {
-  const [val, newVal] = useState("")
+  const [val, newVal] = useState("")//get booking id
   const [confirmData, setConfirmData] = useState()
   const [cancelData, setCancelData] = useState()
   const [pageNum, setPageNum] = useState(1)
@@ -296,29 +354,9 @@ function NewBooking() {
     })
   }
 
-  let confirmationData ={
-    booking_id: val,
-    new_status: "Confirm",
-    driver_name: confirmData?confirmData.name:"",
-    driver_mobile: confirmData?confirmData.mobile:"",
-    estimated_fare: confirmData?confirmData.fare:""
-  }
-
-  let cancellationData ={
-    booking_id: val,
-    new_status: "Cancel",
-    cancellation_reason: cancelData?cancelData.resaon:""
-  }
-
   const [updateData, response] = useUpdateBookingToConfirmMutation()
   const [cancelledData, resp] = useUpdateBookingToCancelMutation()
-  function confirmClick(){
-    updateData(confirmationData)
-  }
-
-  function cancelClick(){
-    cancelledData(cancellationData)
-  }
+  const [bookingDataById, bookingDataByIdResponse] = useGetBookingDataByIdMutation()
 
   let getBookingParams = {
     page: pageNum,
@@ -329,17 +367,6 @@ function NewBooking() {
   const bookingData = useGetBookingDataQuery(getBookingParams)
   const fetchedData = bookingData.data
   
-  function getDocId(e){
-    let bc = e.target.value 
-    newVal(bc)
-  }
-
-  let getBookingParamsForId = {
-    status: "New",
-    booking_id: val
-  }
-  const bookingDataById = useGetBookingDataByIdQuery(getBookingParamsForId)
-  
 if(bookingData.isLoading){
   return (
     <div class="text-center">
@@ -349,16 +376,15 @@ if(bookingData.isLoading){
 </div>
   )
 }
+
+//pagination
   let itemPerPage = 10
   let totalItems = fetchedData.newBookingData.length
   let totalPages = Math.ceil(totalItems/itemPerPage)
   let pageNumber = []
+
   for(let i = 1; i < totalPages+1; i++){
     pageNumber.push(i)
-  }
-  function getPageNum(e){
-    let pageNumber = e.target.innerHTML
-    setPageNum(pageNumber)
   }
 
   return (
@@ -367,7 +393,7 @@ if(bookingData.isLoading){
       <div className="modal fade" id="additionalDetailsForBookingStatusChangeToConfirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
+            <div className="modal-header" style={{backgroundColor: "green", color: "white"}}>
               <h6>Please provide below details</h6>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -392,7 +418,15 @@ if(bookingData.isLoading){
                   <input type="text" className="form-control" id="fare" placeholder="Enter estimated fare" onChange={confirmInput}/>
                 </div>
               </div><br />
-              <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingConfirmationMessage" onClick={confirmClick}>Submit</button></Link>
+              <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingConfirmationMessage" onClick={() => {
+                updateData({
+                  booking_id: val,
+                  new_status: "Confirm",
+                  driver_name: confirmData?confirmData.name:"",
+                  driver_mobile: confirmData?confirmData.mobile:"",
+                  estimated_fare: confirmData?confirmData.fare:""
+                })
+              }}>Submit</button></Link>
             </div>
           </div>
         </div>
@@ -402,7 +436,7 @@ if(bookingData.isLoading){
       <div className="modal fade" id="additionalDetailsForBookingStatusChangeToCancel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
+            <div className="modal-header" style={{backgroundColor: "green", color: "white"}}>
               <h6>Please provide below details</h6>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -413,7 +447,13 @@ if(bookingData.isLoading){
                   <input type="text" className="form-control" id="resaon" placeholder="Enter cancellation reason" onChange={cancelInput}/>
                 </div>
               </div><br />
-              <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingCancellationMessage" onClick={cancelClick}>Submit</button></Link>
+              <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingCancellationMessage" onClick={() => {
+                cancelledData({
+                  booking_id: val,
+                  new_status: "Cancel",
+                  cancellation_reason: cancelData?cancelData.resaon:""
+                })
+              }}>Submit</button></Link>
             </div>
           </div>
         </div>
@@ -423,10 +463,16 @@ if(bookingData.isLoading){
       <div className="modal fade" id="bookingConfirmationMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
-              <Link to='/admin-new-booking'><button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></Link>
+            <div className="modal-header" style={{backgroundColor: "green", color: "white"}}>
+              <h5>New Status</h5>
+              <Link to='/admin-new-booking'><button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>{return window.location.reload()}}></button></Link>
             </div>
             <div className="modal-body">
+            {response.isLoading === true && <div class="text-center">
+                <div class="spinner-border m-5 text-primary" role="status">
+                  <span class="sr-only"></span>
+                </div>
+              </div>}
             {response.status === "fulfilled" && <h6>You have successfully confirmed this booking</h6>}
             </div>
           </div>
@@ -437,10 +483,16 @@ if(bookingData.isLoading){
       <div className="modal fade" id="bookingCancellationMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
-              <Link to='/admin-new-booking'><button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></Link>
+            <div className="modal-header" style={{backgroundColor: "red", color: "white"}}>
+              <h5>New Status</h5>
+              <Link to='/admin-new-booking'><button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>{return window.location.reload()}}></button></Link>
             </div>
             <div className="modal-body">
+            {resp.isLoading === true && <div class="text-center">
+                <div class="spinner-border m-5 text-primary" role="status">
+                  <span class="sr-only"></span>
+                </div>
+              </div>}
             {resp.status === "fulfilled" && <h6>You have successfully cancelled this booking</h6>}
             </div>
           </div>
@@ -452,8 +504,8 @@ if(bookingData.isLoading){
       <div className="modal fade" id="bookingDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
-              <h5>Booking id - {bookingDataById.data && bookingDataById.data.newBookingData.booking_id}</h5>
+            <div className="modal-header" style={{backgroundColor: "green", color: "white"}}>
+              <h5>Booking id - {bookingDataByIdResponse.data && bookingDataByIdResponse.data.newBookingData.booking_id}</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -461,54 +513,54 @@ if(bookingData.isLoading){
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Booking Date</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.booking_date}</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.newBookingData.booking_date}</label>
                   </div>
                 </div>
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Customer Name</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.customer_name}</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.newBookingData.customer_name}</label>
                   </div>
                 </div>
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Customer Mobile</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.customer_mobile}</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.newBookingData.customer_mobile}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Address</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.pickup_address}</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.newBookingData.pickup_address}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Drop Address</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.drop_address}</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.newBookingData.drop_address}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Travel Date</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.travel_date}</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.newBookingData.travel_date}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Time</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.pickup_time}</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.newBookingData.pickup_time}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Preferred Car</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataById.data && bookingDataById.data.newBookingData.favourite_car}</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.newBookingData.favourite_car}</label>
                   </div>
                 </div><br />
                 <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#additionalDetailsForBookingStatusChangeToConfirm" style={{ width: "40%", marginLeft: "10px" }}>Confirm</button></Link>
@@ -540,7 +592,16 @@ if(bookingData.isLoading){
             <td>{item.customer_mobile}</td>
             <td>{item.travel_date}</td>
             <td>{item.favourite_car}</td>
-            <td><button data-bs-toggle="modal" data-bs-target="#bookingDetails" value={item.id} onClick={getDocId}>View</button></td>
+            <td><button data-bs-toggle="modal" data-bs-target="#bookingDetails" value={item.id} onClick={
+              e => {
+                bookingDataById({
+                  status: "New", 
+                  booking_id: e.target.value
+                  });
+
+                  newVal(e.target.value)
+                }
+              }>View</button></td>
           </tr>
           ))}
         </tbody>
@@ -549,7 +610,7 @@ if(bookingData.isLoading){
         <nav aria-label="Page navigation pagination-sm">
         <ul class="pagination justify-content-center">
           {pageNumber.length > 0 && pageNumber.map((item)=>(
-          <li class="page-item" onClick={getPageNum}><Link className="page-link" >{item}</Link></li>
+          <li class="page-item" onClick={e => {setPageNum(e.target.innerHTML)}}><Link className="page-link" >{item}</Link></li>
           ))}
         </ul>
       </nav><br/><br/>
@@ -560,23 +621,47 @@ if(bookingData.isLoading){
 }
 
 function ConfirmedBooking() {
-  const [data, newData] = useState([])
+  const [pageNum, setPageNum] = useState(1)
+  
+  const [bookingDataById, bookingDataByIdResponse] = useGetBookingDataByIdMutation()
 
-  useEffect(() => {
-      fetch('https://datausa.io/api/data?drilldowns=Nation&measures=Population').then((result) => {
-        result.json().then((resp) =>{
-          newData(resp.data)
-        })
-      })
-  },[])
+  let getBookingParams = {
+    page: pageNum,
+    limit: 10,
+    status: "Confirmed"
+  }
+  
+  const bookingData = useGetBookingDataQuery(getBookingParams)
+  const fetchedData = bookingData.data
+  
+if(bookingData.isLoading){
+  return (
+    <div class="text-center">
+  <div class="spinner-border m-5 text-primary" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+  )
+}
+
+//pagination
+  let itemPerPage = 10
+  let totalItems = fetchedData.confirmedBookingData.length
+  let totalPages = Math.ceil(totalItems/itemPerPage)
+  let pageNumber = []
+
+  for(let i = 1; i < totalPages+1; i++){
+    pageNumber.push(i)
+  }
+
   return (
     <>
       {/*Modal for booking details*/}
       <div className="modal fade" id="bookingDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
-              <h5>Booking id - BI0123456</h5>
+            <div className="modal-header" style={{backgroundColor: "green", color: "white"}}>
+              <h5>Booking id - {bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.booking_id}</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -584,76 +669,82 @@ function ConfirmedBooking() {
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Booking Date</b></label>
                   <div className="col-sm-15">
-                    <label for="mobile" className="col-sm-7 col-form-label" style={{ color: "black" }}>20th Feb 2023</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.booking_date}</label>
                   </div>
                 </div>
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Customer Name</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>Santosh Kumar</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.customer_name}</label>
                   </div>
                 </div>
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Customer Mobile</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>9717069846</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.customer_mobile}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Address</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>C-95, 2nd Floor, C Block, New Ashok Nagar, Delhi-96</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.pickup_address}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Drop Address</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>C-95, 2nd Floor, C Block, New Ashok Nagar, Delhi-96</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.drop_address}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Travel Date</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>25th Feb 2023</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.travel_date}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Time</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>10:15pm</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.pickup_time}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Preferred Car</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>Hyundai Aura</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.favourite_car}</label>
                   </div>
                 </div>
+
                 <div className="row mb-2">
-                  <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Car Driver Name</b></label>
+                  <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Driver Name</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>Manoj Sah</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.driver_name}</label>
                   </div>
-                </div><div className="row mb-2">
-                  <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Car Driver Mobile</b></label>
+                </div>
+
+                <div className="row mb-2">
+                  <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Driver Mobile</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>8595876709</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.driver_mobile}</label>
                   </div>
-                </div><div className="row mb-2">
+                </div>
+
+                <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Estimated Fare</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>2500</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.estimated_fare}</label>
                   </div>
                 </div>
+
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Status</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>Booking Confirmed</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.confirmedBookingData.status}</label>
                   </div>
                 </div>
               </div>
@@ -676,40 +767,80 @@ function ConfirmedBooking() {
           </tr>
         </thead>
         <tbody>
-        {data.length > 0 && data.map((item)=> (
-          <tr>
-            <th scope="row">1</th>
-            <td>{item.Population}</td>
-            <td>{item.Nation}</td>
-            <td>{item.Year}</td>
-            <td>{item.Year}</td>
-            <td><button data-bs-toggle="modal" data-bs-target="#bookingDetails">View</button></td>
+        {fetchedData && fetchedData.confirmedBookingData.length > 0 && fetchedData.confirmedBookingData.map((item, i)=> (
+          <tr key={i+1}>
+            <th scope="row">{i+1}</th>
+            <td>{item.customer_name}</td>
+            <td>{item.customer_mobile}</td>
+            <td>{item.travel_date}</td>
+            <td>{item.favourite_car}</td>
+            <td><button data-bs-toggle="modal" data-bs-target="#bookingDetails" value={item.id} onClick={
+              e => {
+                bookingDataById({
+                  status: "Confirmed", 
+                  booking_id: e.target.value
+                  });
+                }
+              }>View</button></td>
           </tr>
           ))}
         </tbody>
       </table>
+
+      <nav aria-label="Page navigation pagination-sm">
+        <ul class="pagination justify-content-center">
+          {pageNumber.length > 0 && pageNumber.map((item)=>(
+          <li class="page-item" onClick={e => {setPageNum(e.target.innerHTML)}}><Link className="page-link" >{item}</Link></li>
+          ))}
+        </ul>
+      </nav><br/><br/>
+      <FooterAdmin/>
     </>
   )
 }
 
 function CancelledBooking() {
-  const [data, newData] = useState([])
+  const [pageNum, setPageNum] = useState(1)
+  
+  const [bookingDataById, bookingDataByIdResponse] = useGetBookingDataByIdMutation()
 
-  useEffect(() => {
-      fetch('https://datausa.io/api/data?drilldowns=Nation&measures=Population').then((result) => {
-        result.json().then((resp) =>{
-          newData(resp.data)
-        })
-      })
-  },[])
+  let getBookingParams = {
+    page: pageNum,
+    limit: 10,
+    status: "Cancelled"
+  }
+  
+  const bookingData = useGetBookingDataQuery(getBookingParams)
+  const fetchedData = bookingData.data
+  
+if(bookingData.isLoading){
+  return (
+    <div class="text-center">
+  <div class="spinner-border m-5 text-primary" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+  )
+}
+
+//pagination
+  let itemPerPage = 10
+  let totalItems = fetchedData.cancelledBookingData.length
+  let totalPages = Math.ceil(totalItems/itemPerPage)
+  let pageNumber = []
+
+  for(let i = 1; i < totalPages+1; i++){
+    pageNumber.push(i)
+  }
+
   return (
     <>
       {/*Modal for booking details*/}
       <div className="modal fade" id="bookingDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
-              <h5>Booking id - BI0123456</h5>
+            <div className="modal-header" style={{backgroundColor: "green", color: "white"}}>
+              <h5>Booking id - {bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.booking_id}</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -717,66 +848,68 @@ function CancelledBooking() {
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Booking Date</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>20th Feb 2023</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.booking_date}</label>
                   </div>
                 </div>
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Customer Name</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>Santosh Kumar</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.customer_name}</label>
                   </div>
                 </div>
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Customer Mobile</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>9717069846</label>
+                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.customer_mobile}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Address</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>C-95, 2nd Floor, C Block, New Ashok Nagar, Delhi-96</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.pickup_address}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Drop Address</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>C-95, 2nd Floor, C Block, New Ashok Nagar, Delhi-96</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.drop_address}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Travel Date</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>25th Feb 2023</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.travel_date}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Time</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>10:15pm</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.pickup_time}</label>
                   </div>
                 </div>
 
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Preferred Car</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>Hyundai Aura</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.favourite_car}</label>
                   </div>
                 </div>
+
                 <div className="row mb-2">
-                  <label className="col-sm-8 col-form-label" style={{ color: "black" }}><b>Cancellation Reason</b></label>
+                  <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Cancellation Reason</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>Driver not ready</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.cancellation_reason}</label>
                   </div>
                 </div>
+
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Status</b></label>
                   <div className="col-sm-15">
-                    <label className="col-sm-7 col-form-label" style={{ color: "black" }}>Booking Cancelled</label>
+                    <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.status}</label>
                   </div>
                 </div>
               </div>
@@ -799,18 +932,34 @@ function CancelledBooking() {
           </tr>
         </thead>
         <tbody>
-        {data.length > 0 && data.map((item)=> (
-          <tr>
-            <th scope="row">1</th>
-            <td>{item.Population}</td>
-            <td>{item.Nation}</td>
-            <td>{item.Year}</td>
-            <td>{item.Year}</td>
-            <td><button data-bs-toggle="modal" data-bs-target="#bookingDetails">View</button></td>
+        {fetchedData && fetchedData.cancelledBookingData.length > 0 && fetchedData.cancelledBookingData.map((item, i)=> (
+          <tr key={i+1}>
+            <th scope="row">{i+1}</th>
+            <td>{item.customer_name}</td>
+            <td>{item.customer_mobile}</td>
+            <td>{item.travel_date}</td>
+            <td>{item.favourite_car}</td>
+            <td><button data-bs-toggle="modal" data-bs-target="#bookingDetails" value={item.id} onClick={
+              e => {
+                bookingDataById({
+                  status: "Cancelled", 
+                  booking_id: e.target.value
+                  });
+                }
+              }>View</button></td>
           </tr>
           ))}
         </tbody>
       </table>
+
+      <nav aria-label="Page navigation pagination-sm">
+        <ul class="pagination justify-content-center">
+          {pageNumber.length > 0 && pageNumber.map((item)=>(
+          <li class="page-item" onClick={e => {setPageNum(e.target.innerHTML)}}><Link className="page-link" >{item}</Link></li>
+          ))}
+        </ul>
+      </nav><br/><br/>
+      <FooterAdmin/>
     </>
   )
 }
@@ -824,9 +973,9 @@ function PagesRouter() {
       <Route path="marketplace/outstation" element={<OutstationCar />} />
       <Route path="marketplace/airport" element={<AirportCar />} />
       <Route path="marketplace/user-profile" element={<UserProfile />} />
-      <Route path="admin-new-booking" element={<NewBooking />} />
-      <Route path="admin-confirmed-booking" element={<ConfirmedBooking />} />
-      <Route path="admin-cancelled-booking" element={<CancelledBooking />} />
+      <Route path="admin-new-booking" element={<LoginDecorator Component={NewBooking}/>} />
+      <Route path="admin-confirmed-booking" element={<LoginDecorator Component={ConfirmedBooking}/>} />
+      <Route path="admin-cancelled-booking" element={<LoginDecorator Component={CancelledBooking}/>} />
     </Routes>
   )
 }
