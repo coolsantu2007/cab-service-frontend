@@ -15,7 +15,7 @@ const Header = () => {
       {/*Navbar items.....*/}
       <nav className="navbar navbar-expand-lg bg-primary" style={{ position: "fixed", top: "0", zIndex: "100", width: "100%" }}>
         <div className="container-fluid">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqkDNlPp2adb3ElGmfUb8uAq5uf0SehohOQ&usqp=CAU" style={{ width: "150px", height: "40px" }} alt="logo" />
+          <img src="https://egcab.s3.ap-south-1.amazonaws.com/egcab%20logo.PNG?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEH0aCmFwLXNvdXRoLTEiSDBGAiEA4wjRHVap8IWgT78CJqQMHDEYSPRYkPvVcuEeJ%2B5T%2F3ACIQCTmpGbPkDYrpzhGEmFCN80fPwqoyw1x4Pe15%2BCD6EhcSrkAghGEAAaDDYyMzEzODk3MzgwMiIMvsAYFWP5pyPbhdxVKsECvAnsB5CI7QyPY8wW3IgayhI5J71hVndfjrJXBhvFoWK%2BklMqi61EzQ1SyCSsTgRfpWfBsDfAhrgEUP5wcTpBflF6ruD93UYF8XNhwdnQhSJa3HTKpD1fpWnTRC94p3WGVFV1DOwHBm%2BuHskGLteb39wGxlmHFa6lcelOdbsH388f78Qgz2hU%2B3%2BgWTP4YXD1KXi8wuvfJd4LJUnPMyaq1vhjd4NklMZMK6on4RwlMlwtQ%2BZQ2tRztIrnWglLnpM0amU5MNnOI9JMNrsquNLRvADh0AwxwU0AjRhW6z7FpE65H%2Fywr6pwfYYDCRrVbV%2FPGZKv%2FV98a9ZEpsXrjHk1AUY7dSdnV31h7jltEupiVSogc77BoDiYja8F8QIke1ekuVpSiD7vQ3ZrI%2BOsrWxMjlApXNKFbmRHshFfyAPHBl%2BRMOrm1aAGOrICT8UshFIOYHhzsdkhNb%2BMsDHAjg1JTGRKX1QqOjzny993U8zo5oONsCWqx%2BNRzNQuqKqHv%2FNJaTvy6RbIQHKEnZY5tK9i%2FScWLlxSDoEqx1YKmzVAlK5c9TvqU6yzwaGWg0%2F4I52O3p7Esb9TuSwxif%2BwoCqFRTcaV%2BJY0OAUc9s8e9J%2BA25HENUL3hFl3YcbV5XFrqr0y2V2T314%2FayzYFrkQb05ygDFDsjL0IDqVRV5nyqzL%2Bpxm5eoIpIc2l7Ko1Z%2BdSuUCSU7aKk%2Bma6VbgPTySZGLDOy%2FBBlWAN277MrTMxKK7wjK05klhintijrhiJVqwbSU5aSWuwwzGBizB3gij%2Bj15VbISt78wk5uTZ4KIiU09AjxVptfLz9pTRmWVOYgiE5Hz%2Fp9u%2Ffx7mExhOt&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230318T133242Z&X-Amz-SignedHeaders=host&X-Amz-Expires=43200&X-Amz-Credential=ASIAZCFP2FBVME4PG2EA%2F20230318%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=20c3a834d7831739c354911724ce2aa2ff060fae451ba4e991508e99a91feaea" style={{ width: "150px", height: "50px" }} alt="logo" />
 
           <div style={{ display: "flex" }}>
             <h6 style={{ fontSize: "15px", marginRight: "10px", color: "white" }}><b><u><i>Welcome guest !</i></u></b></h6>
@@ -32,7 +32,7 @@ const HeaderAdmin = () => {
       {/*Navbar items*/}
       <nav className="navbar navbar-expand-lg bg-secondary">
         <div className="container-fluid">
-          <Link to="/admin-new-booking"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqkDNlPp2adb3ElGmfUb8uAq5uf0SehohOQ&usqp=CAU" style={{ width: "150px", height: "40px" }} alt="logo" /></Link>
+          <Link to="/admin-new-booking"><img src="https://egcab.s3.ap-south-1.amazonaws.com/egcab%20logo.PNG?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEH0aCmFwLXNvdXRoLTEiSDBGAiEA4wjRHVap8IWgT78CJqQMHDEYSPRYkPvVcuEeJ%2B5T%2F3ACIQCTmpGbPkDYrpzhGEmFCN80fPwqoyw1x4Pe15%2BCD6EhcSrkAghGEAAaDDYyMzEzODk3MzgwMiIMvsAYFWP5pyPbhdxVKsECvAnsB5CI7QyPY8wW3IgayhI5J71hVndfjrJXBhvFoWK%2BklMqi61EzQ1SyCSsTgRfpWfBsDfAhrgEUP5wcTpBflF6ruD93UYF8XNhwdnQhSJa3HTKpD1fpWnTRC94p3WGVFV1DOwHBm%2BuHskGLteb39wGxlmHFa6lcelOdbsH388f78Qgz2hU%2B3%2BgWTP4YXD1KXi8wuvfJd4LJUnPMyaq1vhjd4NklMZMK6on4RwlMlwtQ%2BZQ2tRztIrnWglLnpM0amU5MNnOI9JMNrsquNLRvADh0AwxwU0AjRhW6z7FpE65H%2Fywr6pwfYYDCRrVbV%2FPGZKv%2FV98a9ZEpsXrjHk1AUY7dSdnV31h7jltEupiVSogc77BoDiYja8F8QIke1ekuVpSiD7vQ3ZrI%2BOsrWxMjlApXNKFbmRHshFfyAPHBl%2BRMOrm1aAGOrICT8UshFIOYHhzsdkhNb%2BMsDHAjg1JTGRKX1QqOjzny993U8zo5oONsCWqx%2BNRzNQuqKqHv%2FNJaTvy6RbIQHKEnZY5tK9i%2FScWLlxSDoEqx1YKmzVAlK5c9TvqU6yzwaGWg0%2F4I52O3p7Esb9TuSwxif%2BwoCqFRTcaV%2BJY0OAUc9s8e9J%2BA25HENUL3hFl3YcbV5XFrqr0y2V2T314%2FayzYFrkQb05ygDFDsjL0IDqVRV5nyqzL%2Bpxm5eoIpIc2l7Ko1Z%2BdSuUCSU7aKk%2Bma6VbgPTySZGLDOy%2FBBlWAN277MrTMxKK7wjK05klhintijrhiJVqwbSU5aSWuwwzGBizB3gij%2Bj15VbISt78wk5uTZ4KIiU09AjxVptfLz9pTRmWVOYgiE5Hz%2Fp9u%2Ffx7mExhOt&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230318T133242Z&X-Amz-SignedHeaders=host&X-Amz-Expires=43200&X-Amz-Credential=ASIAZCFP2FBVME4PG2EA%2F20230318%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=20c3a834d7831739c354911724ce2aa2ff060fae451ba4e991508e99a91feaea" style={{ width: "150px", height: "50px" }} alt="logo" /></Link>
           <ul class="nav nav-pills" id="admin-nav">
             <li class="nav-item">
               <Link to="/admin-new-booking" class="nav-link" aria-current="page" style={{ color: "white" }}>New</Link>
@@ -256,8 +256,8 @@ function HomePage() {
                   <span class="sr-only"></span>
                 </div>
               </div>}
-              {bookingResponse.status === "fulfilled" && <h6>You have successfully booked your cab. Your booking request has been sent. EG Cab representative will contact you soon. Thank you for your cab booking with.</h6>}
-              <br /><br />
+              {bookingResponse.status === "fulfilled" && <p>You have successfully booked your cab with booking id <b>{bookingResponse.data.booking_id}</b>.<br/><br/> Your booking request has been sent. <br/><br/>EG Cab representative will contact you soon. Thank you for your cab booking with.</p>}
+              <br />
               <button type="button" className="btn btn-primary" onClick={() => { return window.location.reload() }}>CLOSE</button>
             </div>
           </div>
