@@ -8,6 +8,8 @@ import { useAdminUserLoginMutation, useAdminUserLogoutMutation } from './Service
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginDecorator from './LoginDecorator';
+import { TfiLocationPin, TfiEmail, TfiHeadphoneAlt, TfiMobile } from 'react-icons/tfi'
+import {BiLogInCircle} from 'react-icons/bi'
 
 const Header = () => {
   return (
@@ -33,15 +35,15 @@ const HeaderAdmin = () => {
       <nav className="navbar navbar-expand-lg bg-secondary">
         <div className="container-fluid">
           <Link to="/admin-new-booking"><img src="https://egcab.s3.ap-south-1.amazonaws.com/egcab%20logo.PNG?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEH0aCmFwLXNvdXRoLTEiSDBGAiEA4wjRHVap8IWgT78CJqQMHDEYSPRYkPvVcuEeJ%2B5T%2F3ACIQCTmpGbPkDYrpzhGEmFCN80fPwqoyw1x4Pe15%2BCD6EhcSrkAghGEAAaDDYyMzEzODk3MzgwMiIMvsAYFWP5pyPbhdxVKsECvAnsB5CI7QyPY8wW3IgayhI5J71hVndfjrJXBhvFoWK%2BklMqi61EzQ1SyCSsTgRfpWfBsDfAhrgEUP5wcTpBflF6ruD93UYF8XNhwdnQhSJa3HTKpD1fpWnTRC94p3WGVFV1DOwHBm%2BuHskGLteb39wGxlmHFa6lcelOdbsH388f78Qgz2hU%2B3%2BgWTP4YXD1KXi8wuvfJd4LJUnPMyaq1vhjd4NklMZMK6on4RwlMlwtQ%2BZQ2tRztIrnWglLnpM0amU5MNnOI9JMNrsquNLRvADh0AwxwU0AjRhW6z7FpE65H%2Fywr6pwfYYDCRrVbV%2FPGZKv%2FV98a9ZEpsXrjHk1AUY7dSdnV31h7jltEupiVSogc77BoDiYja8F8QIke1ekuVpSiD7vQ3ZrI%2BOsrWxMjlApXNKFbmRHshFfyAPHBl%2BRMOrm1aAGOrICT8UshFIOYHhzsdkhNb%2BMsDHAjg1JTGRKX1QqOjzny993U8zo5oONsCWqx%2BNRzNQuqKqHv%2FNJaTvy6RbIQHKEnZY5tK9i%2FScWLlxSDoEqx1YKmzVAlK5c9TvqU6yzwaGWg0%2F4I52O3p7Esb9TuSwxif%2BwoCqFRTcaV%2BJY0OAUc9s8e9J%2BA25HENUL3hFl3YcbV5XFrqr0y2V2T314%2FayzYFrkQb05ygDFDsjL0IDqVRV5nyqzL%2Bpxm5eoIpIc2l7Ko1Z%2BdSuUCSU7aKk%2Bma6VbgPTySZGLDOy%2FBBlWAN277MrTMxKK7wjK05klhintijrhiJVqwbSU5aSWuwwzGBizB3gij%2Bj15VbISt78wk5uTZ4KIiU09AjxVptfLz9pTRmWVOYgiE5Hz%2Fp9u%2Ffx7mExhOt&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230318T133242Z&X-Amz-SignedHeaders=host&X-Amz-Expires=43200&X-Amz-Credential=ASIAZCFP2FBVME4PG2EA%2F20230318%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=20c3a834d7831739c354911724ce2aa2ff060fae451ba4e991508e99a91feaea" style={{ width: "150px", height: "50px" }} alt="logo" /></Link>
-          <ul class="nav nav-pills" id="admin-nav">
-            <li class="nav-item">
-              <Link to="/admin-new-booking" class="nav-link" aria-current="page" style={{ color: "white" }}>New</Link>
+          <ul className="nav nav-pills" id="admin-nav">
+            <li className="nav-item">
+              <Link to="/admin-new-booking" className="nav-link" aria-current="page" style={{ color: "white" }}>New</Link>
             </li>
-            <li class="nav-item">
-              <Link to="/admin-confirmed-booking" class="nav-link" style={{ color: "white" }} >Confirmed</Link>
+            <li className="nav-item">
+              <Link to="/admin-confirmed-booking" className="nav-link" style={{ color: "white" }} >Confirmed</Link>
             </li>
-            <li class="nav-item">
-              <Link to="/admin-cancelled-booking" class="nav-link" style={{ color: "white" }} >Cancelled</Link>
+            <li className="nav-item">
+              <Link to="/admin-cancelled-booking" className="nav-link" style={{ color: "white" }} >Cancelled</Link>
             </li>
           </ul>
         </div>
@@ -71,10 +73,11 @@ const Footer = () => {
       window.location.reload('/admin-new-booking')
     }
   }
+  
   return (
     <>
       {/*User signin form modal*/}
-      <div className="modal fade" id="adminSignInForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "50%", left: "20%" }}>
+      <div className="modal fade" id="adminSignInForm" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "50%", left: "20%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -84,25 +87,37 @@ const Footer = () => {
             <div className="modal-body">
 
               {/*User Signin Form*/}
-              <div class="mb-2">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" onChange={store_data} />
+              <div className="mb-2">
+                <label htmlFor="email" className="form-label">Email address</label>
+                <input type="email" className="form-control" id="email" aria-describedby="emailHelp" onChange={store_data} />
                 {emailError}
               </div>
-              <div class="mb-2">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" onChange={store_data} />
+              <div className="mb-2">
+                <label htmlFor="password" className="form-label">Password</label>
+                <input type="password" className="form-control" id="password" onChange={store_data} />
                 {passwordError}
               </div>
-              <button type="submit" class="btn btn-primary" onClick={() => {
+              {response.isLoading === true && <div className="text-center">
+                <div className="spinner-border m-5 text-primary" role="status">
+                  <span className="sr-only"></span>
+                </div>
+              </div>}
+              {response.status === "rejected" && <p style={{color: "red"}}>{response.error.data.status}</p>}
+              <button type="submit" className="btn btn-primary" onClick={() => {
                 if (!loginData.email) {
                   setEmailError(<span style={{ color: "red" }}>Email can't be empty</span>)
-                } else if (!loginData.password) {
-                  setPasswordError(<span style={{ color: "red" }}>Password can't be empty</span>)
-                } else {
-                  userLogin(loginData)
-                  toast.success('Successfully loggedin')
+                  setPasswordError()
                 }
+                if (!loginData.password) {
+                  setPasswordError(<span style={{ color: "red" }}>Password can't be empty</span>)
+                  setEmailError()
+                } 
+                if(loginData.email && loginData.password){
+                  setPasswordError()
+                  setEmailError()
+                }
+                userLogin(loginData)
+                //toast.success("Login successfull")
               }}>Signin</button>
             </div>
           </div>
@@ -120,49 +135,50 @@ const Footer = () => {
         pauseOnHover
         theme="colored"
       />
-      <div class="container-{breakpoint} my-6">
-        <footer class="text-white text-center text-lg-start bg-primary">
-          <div class="container p-4">
-            <div class="row mt-4">
-              <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
-                <h5 class="text-uppercase mb-4">About Us</h5>
+      <div className="container-{breakpoint} my-6">
+        <footer className="text-white text-center text-lg-start bg-primary">
+          <div className="container p-4">
+            <div className="row mt-4">
+              <div className="col-lg-4 col-md-12 mb-4 mb-md-0">
+                <h5 className="text-uppercase mb-4" style={{color: "black"}}>About Us</h5>
                 <p>
-                  At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                  voluptatum deleniti atque corrupti.
+                ईजी कैब पूर्णिया में ग्राहकों की सुविधा के लिए उपलब्ध कराई जाने वाली अग्रणी कैब सेवा है। 
                 </p>
                 <p>
-                  Blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas
-                  molestias.
+                स्थानीय यात्रा, बाहरी यात्रा और हवाई अड्डे के लिए कैब सेवा उपलब्ध है।
+                </p>
+                <p>
+                विवाह समारोह और कॉर्पोरेट के लिए भी कैब सेवा उपलब्ध है।
                 </p>
               </div>
-              <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-                <h5 class="text-uppercase mb-4" style={{ marginLeft: "1.65em" }}>Contact</h5>
-                <li class="mb-3" style={{ marginLeft: "2.15em" }}>
-                  <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Vill + Post - Kajha, Police Station - K. Nagar, District - Purnea, Pin - 854304</span>
-                </li>
-                <li class="mb-3" style={{ marginLeft: "2.15em" }}>
-                  <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">info@example.com</span>
-                </li>
-                <li class="mb-3" style={{ marginLeft: "2.15em" }}>
-                  <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">9717069846</span>
-                </li>
-                <li class="mb-3" style={{ marginLeft: "2.15em" }}>
-                  <span class="fa-li"><i class="fas fa-print"></i></span><span class="ms-2">8595100344</span>
-                </li>
+              <div className="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 className="text-uppercase mb-4" style={{color: "black"}}>Contact</h5>
+                <div>
+                  <TfiLocationPin style={{color: "black"}}/><span className="ms-2">Vill + Post - Kajha, Police Station - K. Nagar, District - Purnea, Pin - 854304</span><br/>
+                  </div>
+                <div style={{marginTop: "10px"}}>
+                  <TfiEmail style={{color: "black"}}/><span className="ms-2">info@example.com</span><br/>
+                  </div>
+                <div style={{marginTop: "10px"}}>
+                  <TfiHeadphoneAlt style={{color: "black"}}/><span className="ms-2">9717069846</span><br/>
+                  </div>
+                <div style={{marginTop: "10px"}}>
+                  <TfiMobile style={{color: "black"}}/><span className="ms-2">8595100344</span>
+                  </div>
 
               </div>
 
-              <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-                <h5 class="text-uppercase mb-4">Business Central</h5>
-                <li class="mb-3">
-                  <Link data-bs-toggle="modal" data-bs-target="#adminSignInForm"><span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2" style={{ color: "white" }}>Admin Login</span></Link>
-                </li>
+              <div className="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 className="text-uppercase mb-4" style={{color: "black"}}>Business Central</h5>
+                <BiLogInCircle style={{color: "black"}}/>
+                  <Link data-bs-toggle="modal" data-bs-target="#adminSignInForm"><span className="fa-li"><i className="fas fa-phone"></i></span><span className="ms-2" style={{ color: "white" }}>Admin Login</span></Link>
+                
               </div>
             </div>
           </div>
-          <div class="text-center p-3" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
+          <div className="text-center p-3" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
             © 2023 Copyright:
-            <a class="text-white" href="/" style={{ marginLeft: "5px" }}>egcab.com</a>
+            <a className="text-white" href="/" style={{ marginLeft: "5px" }}>egcab.com</a>
           </div>
         </footer>
       </div>
@@ -183,7 +199,7 @@ const FooterAdmin = () => {
   return (
     <>
       {/*User signin form modal*/}
-      <div className="modal fade" id="adminLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "40%", left: "30%" }}>
+      <div className="modal fade" id="adminLogout" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "40%", left: "30%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "red", color: "white" }}>
@@ -216,12 +232,12 @@ const FooterAdmin = () => {
         theme="colored"
       />
 
-      <div class="container-{breakpoint} my-6">
-        <footer class="text-white text-center text-lg-start bg-primary">
-          <div class="text-center p-3" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
+      <div className="container-{breakpoint} my-6">
+        <footer className="text-white text-center text-lg-start bg-primary">
+          <div className="text-center p-3" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
             © 2023 Copyright:
-            <a class="text-white" href="/" style={{ marginLeft: "5px" }}>egcab.com</a><br />
-            <a class="text-white" href="/" data-bs-toggle="modal" data-bs-target="#adminLogout" onClick={() => { }}>Logout</a>
+            <Link to='/' className="text-white" style={{ marginLeft: "5px" }}>egcab.com</Link><br />
+            <Link to='/' className="text-white" data-bs-toggle="modal" data-bs-target="#adminLogout" onClick={() => { }}>Logout</Link>
           </div>
         </footer>
       </div>
@@ -243,22 +259,25 @@ function HomePage() {
   return (
     <>
       {/*Modal for booking confirmation message*/}
-      <div className="modal fade" id="bookingConfirmationMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
+      <div className="modal fade" id="bookingConfirmationMessage" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
               <h5>Booking Status</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => { return window.location.reload() }}></button>
             </div>
             <div className="modal-body">
-              {bookingResponse.isLoading === true && <div class="text-center">
-                <div class="spinner-border m-5 text-primary" role="status">
-                  <span class="sr-only"></span>
+              {bookingResponse.isLoading === true && <div className="text-center">
+                <div className="spinner-border m-5 text-primary" role="status">
+                  <span className="sr-only"></span>
                 </div>
               </div>}
-              {bookingResponse.status === "fulfilled" && <p>You have successfully booked your cab with booking id <b>{bookingResponse.data.booking_id}</b>.<br/><br/> Your booking request has been sent. <br/><br/>EG Cab representative will contact you soon. Thank you for your cab booking with.</p>}
-              <br />
-              <button type="button" className="btn btn-primary" onClick={() => { return window.location.reload() }}>CLOSE</button>
+              {bookingResponse.status === "fulfilled" && 
+              <p>You have successfully booked your cab with booking id <b>{bookingResponse.data.booking_id}</b>.<br/><br/> Your booking request has been sent. <br/><br/>EG Cab representative will contact you soon. Thank you for your cab booking with.<br/><br/>
+              <button type="button" className="btn btn-primary" onClick={() => { return window.location.reload() }}>CLOSE</button></p>
+              }
+
+              {bookingResponse.status === "rejected" && <p style={{color: "red"}}>{bookingResponse.error.data.message}<br/><br/>
+              <button type="button" className="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">OK</button></p>}
             </div>
           </div>
         </div>
@@ -266,58 +285,58 @@ function HomePage() {
 
       <Header /><br /><br />
       <div id="form">
-        <div class="bg-img">
+        <div className="bg-img">
           <div style={{ display: "flex" }}>
             {/* <h2 style={{ marginLeft: "12%", marginTop: "15%", color: "black" }}><b><i>अपनी पसंदीदा कैब यहां बुक करें.</i></b></h2> */}
-            <form class="form-container">
+            <form className="form-container">
               <h1 style={{ textAlign: "center", fontSize: "20px", color: "blue" }}><u><b>Book Cab</b></u></h1><br />
               <div className="row mb-2">
-                <label for="name" className="col-sm-5" style={{ color: "black" }}><b>Your Name</b></label>
+                <label htmlFor="name" className="col-sm-5" style={{ color: "black" }}><b>Your Name</b></label>
                 <div className="col-sm-15">
                   <input type="text" className="form-control" id="name" placeholder="Enter your name" required onChange={store_data} />
                 </div>
               </div>
 
               <div className="row mb-2">
-                <label for="mobile" className="col-sm-5 col-form-label" style={{ color: "black" }}><b>Your Mobile</b></label>
+                <label htmlFor="mobile" className="col-sm-5 col-form-label" style={{ color: "black" }}><b>Your Mobile</b></label>
                 <div className="col-sm-15">
                   <input type="text" className="form-control" id="mobile" placeholder="Enter your mobile number" required onChange={store_data} />
                 </div>
               </div>
 
               <div className="row mb-2">
-                <label for="pickup_address" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Address</b></label>
+                <label htmlFor="pickup_address" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Pickup Address</b></label>
                 <div className="col-sm-15">
                   <input type="text" className="form-control" id="pickup_address" placeholder="Enter your pickup address" required onChange={store_data} />
                 </div>
               </div>
 
               <div className="row mb-2">
-                <label for="drop_address" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Drop Address</b></label>
+                <label htmlFor="drop_address" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Drop Address</b></label>
                 <div className="col-sm-15">
                   <input type="text" className="form-control" id="drop_address" placeholder="Enter your drop address" required onChange={store_data} />
                 </div>
               </div>
 
               <div className="row mb-2">
-                <label for="travel_date" className="col-sm-5 col-form-label" style={{ color: "black" }}><b>Travel Date</b></label>
+                <label htmlFor="travel_date" className="col-sm-5 col-form-label" style={{ color: "black" }}><b>Travel Date</b></label>
                 <div className="col-sm-15">
                   <input type="date" className="form-control" id="travel_date" required onChange={store_data} />
                 </div>
               </div>
 
               <div className="row mb-2">
-                <label for="pickup_time" className="col-sm-5 col-form-label" style={{ color: "black" }}><b>Pickup Time</b></label>
+                <label htmlFor="pickup_time" className="col-sm-5 col-form-label" style={{ color: "black" }}><b>Pickup Time</b></label>
                 <div className="col-sm-15">
                   <input type="time" className="form-control" id="pickup_time" required onChange={store_data} />
                 </div>
               </div>
 
               <div className="row mb-2">
-                <label for="car_type" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Select Your Favourite Car</b></label>
+                <label htmlFor="car_type" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Select Your Favourite Car</b></label>
                 <div className="col-sm-15">
                   <select id="car_type" required onChange={store_data}>
-                    <option selected>Select</option>
+                    <option defaultValue>Select</option>
                     <option>Suzuki Wagonr</option>
                     <option>Hyundai Aura</option>
                     <option>Skoda</option>
@@ -380,9 +399,9 @@ function NewBooking() {
 
   if (bookingData.isLoading) {
     return (
-      <div class="text-center">
-        <div class="spinner-border m-5 text-primary" role="status">
-          <span class="sr-only"></span>
+      <div className="text-center">
+        <div className="spinner-border m-5 text-primary" role="status">
+          <span className="sr-only"></span>
         </div>
       </div>
     )
@@ -390,7 +409,7 @@ function NewBooking() {
 
   //pagination
   let itemPerPage = 10
-  let totalItems = fetchedData.newBookingData.length
+  let totalItems = (bookingData.status === "fulfilled")?fetchedData.newBookingData.length:0
   let totalPages = Math.ceil(totalItems / itemPerPage)
   let pageNumber = []
 
@@ -401,7 +420,7 @@ function NewBooking() {
   return (
     <>
       {/*Modal for additional details on booking confirmation status change*/}
-      <div className="modal fade" id="additionalDetailsForBookingStatusChangeToConfirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
+      <div className="modal fade" id="additionalDetailsForBookingStatusChangeToConfirm" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -410,21 +429,21 @@ function NewBooking() {
             </div>
             <div className="modal-body">
               <div className="row mb-2">
-                <label for="name" className="col-sm-5" style={{ color: "black" }}><b>Driver Name</b></label>
+                <label htmlFor="name" className="col-sm-5" style={{ color: "black" }}><b>Driver Name</b></label>
                 <div className="col-sm-15">
                   <input type="text" className="form-control" id="name" placeholder="Enter driver name" onChange={confirmInput} />
                 </div>
               </div>
 
               <div className="row mb-2">
-                <label for="mobile" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Driver Mobile</b></label>
+                <label htmlFor="mobile" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Driver Mobile</b></label>
                 <div className="col-sm-15">
                   <input type="text" className="form-control" id="mobile" placeholder="Enter driver mobile number" onChange={confirmInput} />
                 </div>
               </div>
 
               <div className="row mb-2">
-                <label for="fare" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Estimated Fare</b></label>
+                <label htmlFor="fare" className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Estimated Fare</b></label>
                 <div className="col-sm-15">
                   <input type="text" className="form-control" id="fare" placeholder="Enter estimated fare" onChange={confirmInput} />
                 </div>
@@ -444,7 +463,7 @@ function NewBooking() {
       </div>
 
       {/*Modal for additional details on booking cancellation status change*/}
-      <div className="modal fade" id="additionalDetailsForBookingStatusChangeToCancel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
+      <div className="modal fade" id="additionalDetailsForBookingStatusChangeToCancel" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -453,7 +472,7 @@ function NewBooking() {
             </div>
             <div className="modal-body">
               <div className="row mb-2">
-                <label for="reason" className="col-sm-8" style={{ color: "black" }}><b>Cancellation Reason</b></label>
+                <label htmlFor="reason" className="col-sm-8" style={{ color: "black" }}><b>Cancellation Reason</b></label>
                 <div className="col-sm-15">
                   <input type="text" className="form-control" id="resaon" placeholder="Enter cancellation reason" onChange={cancelInput} />
                 </div>
@@ -471,7 +490,7 @@ function NewBooking() {
       </div>
 
       {/*Modal for booking confirmation message*/}
-      <div className="modal fade" id="bookingConfirmationMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
+      <div className="modal fade" id="bookingConfirmationMessage" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -479,11 +498,12 @@ function NewBooking() {
               <Link to='/admin-new-booking'><button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => { return window.location.reload() }}></button></Link>
             </div>
             <div className="modal-body">
-              {response.isLoading === true && <div class="text-center">
-                <div class="spinner-border m-5 text-primary" role="status">
-                  <span class="sr-only"></span>
+              {response.isLoading === true && <div className="text-center">
+                <div className="spinner-border m-5 text-primary" role="status">
+                  <span className="sr-only"></span>
                 </div>
               </div>}
+              {response.status === "rejected" && <p style={{color: "red"}}>{response.error.data.message}</p>}
               {response.status === "fulfilled" && <h6>You have successfully confirmed this booking</h6>}
             </div>
           </div>
@@ -491,7 +511,7 @@ function NewBooking() {
       </div>
 
       {/*Modal for booking cancellation message*/}
-      <div className="modal fade" id="bookingCancellationMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
+      <div className="modal fade" id="bookingCancellationMessage" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "red", color: "white" }}>
@@ -499,11 +519,12 @@ function NewBooking() {
               <Link to='/admin-new-booking'><button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => { return window.location.reload() }}></button></Link>
             </div>
             <div className="modal-body">
-              {resp.isLoading === true && <div class="text-center">
-                <div class="spinner-border m-5 text-primary" role="status">
-                  <span class="sr-only"></span>
+              {resp.isLoading === true && <div className="text-center">
+                <div className="spinner-border m-5 text-primary" role="status">
+                  <span className="sr-only"></span>
                 </div>
               </div>}
+              {resp.status === "rejected" && <p style={{color: "red"}}>{resp.error.data.message}</p>}
               {resp.status === "fulfilled" && <h6>You have successfully cancelled this booking</h6>}
             </div>
           </div>
@@ -512,7 +533,7 @@ function NewBooking() {
 
 
       {/*Modal for booking details*/}
-      <div className="modal fade" id="bookingDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
+      <div className="modal fade" id="bookingDetails" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -581,10 +602,11 @@ function NewBooking() {
           </div>
         </div>
       </div>
-
-      <HeaderAdmin /><br />
+      {(bookingData.status === "fulfilled") ? 
+      <div>
+        <HeaderAdmin /><br />
       <h5>New Booking</h5>
-      <table class="table table-responsive-xl">
+      <table className="table table-responsive-xl">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -619,14 +641,35 @@ function NewBooking() {
       </table>
 
       <nav aria-label="Page navigation pagination-sm">
-        <ul class="pagination justify-content-center">
+        <ul className="pagination justify-content-center">
           {pageNumber.length > 0 && pageNumber.map((item) => (
-            <li class="page-item" onClick={e => { setPageNum(e.target.innerHTML) }}><Link className="page-link" >{item}</Link></li>
+            <li className="page-item" onClick={e => { setPageNum(e.target.innerHTML) }}><Link className="page-link" >{item}</Link></li>
           ))}
         </ul>
       </nav><br /><br />
       <FooterAdmin />
-
+      </div> : <div>
+      <HeaderAdmin /><br />
+      <h5>New Booking</h5>
+      <table className="table table-responsive-xl">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Travel Date</th>
+            <th scope="col">Car Type</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <br /><br />
+      <p style={{textAlign: "center", color: "red"}}>New booking not found</p>
+      <br /><br /><br /><br /><br /><br />
+      <FooterAdmin />
+        </div>}
     </>
   )
 }
@@ -647,9 +690,9 @@ function ConfirmedBooking() {
 
   if (bookingData.isLoading) {
     return (
-      <div class="text-center">
-        <div class="spinner-border m-5 text-primary" role="status">
-          <span class="sr-only"></span>
+      <div className="text-center">
+        <div className="spinner-border m-5 text-primary" role="status">
+          <span className="sr-only"></span>
         </div>
       </div>
     )
@@ -657,7 +700,7 @@ function ConfirmedBooking() {
 
   //pagination
   let itemPerPage = 10
-  let totalItems = fetchedData.confirmedBookingData.length
+  let totalItems = (bookingData.status === "fulfilled")?fetchedData.confirmedBookingData.length:0
   let totalPages = Math.ceil(totalItems / itemPerPage)
   let pageNumber = []
 
@@ -668,7 +711,7 @@ function ConfirmedBooking() {
   return (
     <>
       {/*Modal for booking details*/}
-      <div className="modal fade" id="bookingDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
+      <div className="modal fade" id="bookingDetails" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -764,9 +807,11 @@ function ConfirmedBooking() {
         </div>
       </div>
 
-      <HeaderAdmin /><br />
+{(bookingData.status === "fulfilled") ? 
+<div>
+<HeaderAdmin /><br />
       <h5>Confirmed Booking</h5>
-      <table class="table table-responsive-xl">
+      <table className="table table-responsive-xl">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -799,13 +844,36 @@ function ConfirmedBooking() {
       </table>
 
       <nav aria-label="Page navigation pagination-sm">
-        <ul class="pagination justify-content-center">
+        <ul className="pagination justify-content-center">
           {pageNumber.length > 0 && pageNumber.map((item) => (
-            <li class="page-item" onClick={e => { setPageNum(e.target.innerHTML) }}><Link className="page-link" >{item}</Link></li>
+            <li className="page-item" onClick={e => { setPageNum(e.target.innerHTML) }}><Link className="page-link" >{item}</Link></li>
           ))}
         </ul>
       </nav><br /><br />
       <FooterAdmin />
+</div> : <div>
+<HeaderAdmin /><br />
+      <h5>Confirmed Booking</h5>
+      <table className="table table-responsive-xl">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Travel Date</th>
+            <th scope="col">Car Type</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <br /><br />
+      <p style={{textAlign: "center", color: "red"}}>Confirmed booking not found</p>
+      <br /><br /><br /><br /><br /><br />
+      <FooterAdmin />
+  </div>}
+      
     </>
   )
 }
@@ -826,9 +894,9 @@ function CancelledBooking() {
 
   if (bookingData.isLoading) {
     return (
-      <div class="text-center">
-        <div class="spinner-border m-5 text-primary" role="status">
-          <span class="sr-only"></span>
+      <div className="text-center">
+        <div className="spinner-border m-5 text-primary" role="status">
+          <span className="sr-only"></span>
         </div>
       </div>
     )
@@ -836,7 +904,7 @@ function CancelledBooking() {
 
   //pagination
   let itemPerPage = 10
-  let totalItems = fetchedData.cancelledBookingData.length
+  let totalItems = (bookingData.status === "fulfilled")?fetchedData.cancelledBookingData.length:0
   let totalPages = Math.ceil(totalItems / itemPerPage)
   let pageNumber = []
 
@@ -847,7 +915,7 @@ function CancelledBooking() {
   return (
     <>
       {/*Modal for booking details*/}
-      <div className="modal fade" id="bookingDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
+      <div className="modal fade" id="bookingDetails" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -928,10 +996,11 @@ function CancelledBooking() {
           </div>
         </div>
       </div>
-
-      <HeaderAdmin /><br />
+{(bookingData.status === "fulfilled") ? 
+<div>
+<HeaderAdmin /><br />
       <h5>Cancelled Booking</h5>
-      <table class="table table-responsive-xl">
+      <table className="table table-responsive-xl">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -964,13 +1033,35 @@ function CancelledBooking() {
       </table>
 
       <nav aria-label="Page navigation pagination-sm">
-        <ul class="pagination justify-content-center">
+        <ul className="pagination justify-content-center">
           {pageNumber.length > 0 && pageNumber.map((item) => (
-            <li class="page-item" onClick={e => { setPageNum(e.target.innerHTML) }}><Link className="page-link" >{item}</Link></li>
+            <li className="page-item" onClick={e => { setPageNum(e.target.innerHTML) }}><Link className="page-link" >{item}</Link></li>
           ))}
         </ul>
       </nav><br /><br />
       <FooterAdmin />
+</div> : <div>
+<HeaderAdmin /><br />
+      <h5>Cancelled Booking</h5>
+      <table className="table table-responsive-xl">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Travel Date</th>
+            <th scope="col">Car Type</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <br /><br />
+      <p style={{textAlign: "center", color: "red"}}>Cancelled booking not found</p>
+      <br /><br /><br /><br /><br /><br />
+      <FooterAdmin />
+  </div>}
     </>
   )
 }
