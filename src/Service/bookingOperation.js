@@ -5,7 +5,7 @@ let authorizationToken = localStorage.getItem('token')
 export const bookingApi = createApi({
     reducerPath: 'bookingApi',
     baseQuery: fetchBaseQuery({//fetch wrapper handles request headers and response parsing like axios
-        baseUrl: 'http://api.egcab.com/api/v1/'
+        baseUrl: 'https://api.egcab.com/api/v1/'
     }),
     endpoints: (builder)=>({
         getBookingData: builder.query({//using 'query' to get data
