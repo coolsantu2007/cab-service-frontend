@@ -17,7 +17,7 @@ const Header = () => {
       {/*Navbar items.....*/}
       <nav className="navbar navbar-expand-lg bg-primary" style={{ position: "fixed", top: "0", zIndex: "100", width: "100%" }}>
         <div className="container-fluid">
-          <img src="https://egcab.s3.ap-south-1.amazonaws.com/egcab%20logo.PNG?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEH0aCmFwLXNvdXRoLTEiSDBGAiEA4wjRHVap8IWgT78CJqQMHDEYSPRYkPvVcuEeJ%2B5T%2F3ACIQCTmpGbPkDYrpzhGEmFCN80fPwqoyw1x4Pe15%2BCD6EhcSrkAghGEAAaDDYyMzEzODk3MzgwMiIMvsAYFWP5pyPbhdxVKsECvAnsB5CI7QyPY8wW3IgayhI5J71hVndfjrJXBhvFoWK%2BklMqi61EzQ1SyCSsTgRfpWfBsDfAhrgEUP5wcTpBflF6ruD93UYF8XNhwdnQhSJa3HTKpD1fpWnTRC94p3WGVFV1DOwHBm%2BuHskGLteb39wGxlmHFa6lcelOdbsH388f78Qgz2hU%2B3%2BgWTP4YXD1KXi8wuvfJd4LJUnPMyaq1vhjd4NklMZMK6on4RwlMlwtQ%2BZQ2tRztIrnWglLnpM0amU5MNnOI9JMNrsquNLRvADh0AwxwU0AjRhW6z7FpE65H%2Fywr6pwfYYDCRrVbV%2FPGZKv%2FV98a9ZEpsXrjHk1AUY7dSdnV31h7jltEupiVSogc77BoDiYja8F8QIke1ekuVpSiD7vQ3ZrI%2BOsrWxMjlApXNKFbmRHshFfyAPHBl%2BRMOrm1aAGOrICT8UshFIOYHhzsdkhNb%2BMsDHAjg1JTGRKX1QqOjzny993U8zo5oONsCWqx%2BNRzNQuqKqHv%2FNJaTvy6RbIQHKEnZY5tK9i%2FScWLlxSDoEqx1YKmzVAlK5c9TvqU6yzwaGWg0%2F4I52O3p7Esb9TuSwxif%2BwoCqFRTcaV%2BJY0OAUc9s8e9J%2BA25HENUL3hFl3YcbV5XFrqr0y2V2T314%2FayzYFrkQb05ygDFDsjL0IDqVRV5nyqzL%2Bpxm5eoIpIc2l7Ko1Z%2BdSuUCSU7aKk%2Bma6VbgPTySZGLDOy%2FBBlWAN277MrTMxKK7wjK05klhintijrhiJVqwbSU5aSWuwwzGBizB3gij%2Bj15VbISt78wk5uTZ4KIiU09AjxVptfLz9pTRmWVOYgiE5Hz%2Fp9u%2Ffx7mExhOt&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230318T133242Z&X-Amz-SignedHeaders=host&X-Amz-Expires=43200&X-Amz-Credential=ASIAZCFP2FBVME4PG2EA%2F20230318%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=20c3a834d7831739c354911724ce2aa2ff060fae451ba4e991508e99a91feaea" style={{ width: "150px", height: "50px" }} alt="logo" />
+          <img src="https://s3.ap-south-1.amazonaws.com/egcab.com/egcab+logo.PNG" style={{ width: "150px", height: "50px" }} alt="logo" />
 
           <div style={{ display: "flex" }}>
             <h6 style={{ fontSize: "15px", marginRight: "10px", color: "white" }}><b><u><i>Welcome guest !</i></u></b></h6>
@@ -34,7 +34,7 @@ const HeaderAdmin = () => {
       {/*Navbar items*/}
       <nav className="navbar navbar-expand-lg bg-secondary">
         <div className="container-fluid">
-          <Link to="/admin-new-booking"><img src="https://egcab.s3.ap-south-1.amazonaws.com/egcab%20logo.PNG?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEH0aCmFwLXNvdXRoLTEiSDBGAiEA4wjRHVap8IWgT78CJqQMHDEYSPRYkPvVcuEeJ%2B5T%2F3ACIQCTmpGbPkDYrpzhGEmFCN80fPwqoyw1x4Pe15%2BCD6EhcSrkAghGEAAaDDYyMzEzODk3MzgwMiIMvsAYFWP5pyPbhdxVKsECvAnsB5CI7QyPY8wW3IgayhI5J71hVndfjrJXBhvFoWK%2BklMqi61EzQ1SyCSsTgRfpWfBsDfAhrgEUP5wcTpBflF6ruD93UYF8XNhwdnQhSJa3HTKpD1fpWnTRC94p3WGVFV1DOwHBm%2BuHskGLteb39wGxlmHFa6lcelOdbsH388f78Qgz2hU%2B3%2BgWTP4YXD1KXi8wuvfJd4LJUnPMyaq1vhjd4NklMZMK6on4RwlMlwtQ%2BZQ2tRztIrnWglLnpM0amU5MNnOI9JMNrsquNLRvADh0AwxwU0AjRhW6z7FpE65H%2Fywr6pwfYYDCRrVbV%2FPGZKv%2FV98a9ZEpsXrjHk1AUY7dSdnV31h7jltEupiVSogc77BoDiYja8F8QIke1ekuVpSiD7vQ3ZrI%2BOsrWxMjlApXNKFbmRHshFfyAPHBl%2BRMOrm1aAGOrICT8UshFIOYHhzsdkhNb%2BMsDHAjg1JTGRKX1QqOjzny993U8zo5oONsCWqx%2BNRzNQuqKqHv%2FNJaTvy6RbIQHKEnZY5tK9i%2FScWLlxSDoEqx1YKmzVAlK5c9TvqU6yzwaGWg0%2F4I52O3p7Esb9TuSwxif%2BwoCqFRTcaV%2BJY0OAUc9s8e9J%2BA25HENUL3hFl3YcbV5XFrqr0y2V2T314%2FayzYFrkQb05ygDFDsjL0IDqVRV5nyqzL%2Bpxm5eoIpIc2l7Ko1Z%2BdSuUCSU7aKk%2Bma6VbgPTySZGLDOy%2FBBlWAN277MrTMxKK7wjK05klhintijrhiJVqwbSU5aSWuwwzGBizB3gij%2Bj15VbISt78wk5uTZ4KIiU09AjxVptfLz9pTRmWVOYgiE5Hz%2Fp9u%2Ffx7mExhOt&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230318T133242Z&X-Amz-SignedHeaders=host&X-Amz-Expires=43200&X-Amz-Credential=ASIAZCFP2FBVME4PG2EA%2F20230318%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=20c3a834d7831739c354911724ce2aa2ff060fae451ba4e991508e99a91feaea" style={{ width: "150px", height: "50px" }} alt="logo" /></Link>
+          <Link to="/admin-new-booking"><img src="https://s3.ap-south-1.amazonaws.com/egcab.com/egcab+logo.PNG" style={{ width: "150px", height: "50px" }} alt="logo" /></Link>
           <ul className="nav nav-pills" id="admin-nav">
             <li className="nav-item">
               <Link to="/admin-new-booking" className="nav-link" aria-current="page" style={{ color: "white" }}>New</Link>
@@ -117,7 +117,7 @@ const Footer = () => {
                   setEmailError()
                 }
                 userLogin(loginData)
-                //toast.success("Login successfull")
+                toast.success("Login successfull")
               }}>Signin</button>
             </div>
           </div>
@@ -154,16 +154,16 @@ const Footer = () => {
               <div className="col-lg-4 col-md-6 mb-4 mb-md-0">
                 <h5 className="text-uppercase mb-4" style={{color: "black"}}>Contact</h5>
                 <div>
-                  <TfiLocationPin style={{color: "black"}}/><span className="ms-2">Vill + Post - Kajha, Police Station - K. Nagar, District - Purnea, Pin - 854304</span><br/>
+                  <TfiLocationPin style={{color: "black"}}/><span className="ms-2">Vill + Post - Kajha, Police Station - K. Nagar, District - Purnea, Bihar - 854304</span><br/>
                   </div>
                 <div style={{marginTop: "10px"}}>
-                  <TfiEmail style={{color: "black"}}/><span className="ms-2">info@example.com</span><br/>
+                  <TfiEmail style={{color: "black"}}/><span className="ms-2">booking@egcab.com</span><br/>
                   </div>
                 <div style={{marginTop: "10px"}}>
-                  <TfiHeadphoneAlt style={{color: "black"}}/><span className="ms-2">9717069846</span><br/>
+                  <TfiHeadphoneAlt style={{color: "black"}}/><span className="ms-2">9631895883</span><br/>
                   </div>
                 <div style={{marginTop: "10px"}}>
-                  <TfiMobile style={{color: "black"}}/><span className="ms-2">8595100344</span>
+                  <TfiMobile style={{color: "black"}}/><span className="ms-2">9570378101</span>
                   </div>
 
               </div>
@@ -171,7 +171,7 @@ const Footer = () => {
               <div className="col-lg-4 col-md-6 mb-4 mb-md-0">
                 <h5 className="text-uppercase mb-4" style={{color: "black"}}>Business Central</h5>
                 <BiLogInCircle style={{color: "black"}}/>
-                  <Link data-bs-toggle="modal" data-bs-target="#adminSignInForm"><span className="fa-li"><i className="fas fa-phone"></i></span><span className="ms-2" style={{ color: "white" }}>Admin Login</span></Link>
+                  <Link data-bs-toggle="modal" data-bs-target="#adminSignInForm"><span className="fa-li"><i className="fas fa-phone"></i></span><span className="ms-2" style={{ color: "white" }}>Admin</span></Link>
                 
               </div>
             </div>
@@ -287,7 +287,7 @@ function HomePage() {
       <div id="form">
         <div className="bg-img">
           <div style={{ display: "flex" }}>
-            {/* <h2 style={{ marginLeft: "12%", marginTop: "15%", color: "black" }}><b><i>अपनी पसंदीदा कैब यहां बुक करें.</i></b></h2> */}
+            <h2 style={{ marginLeft: "12%", marginTop: "15%", color: "black" }}><b><i>अपनी पसंदीदा कैब यहां बुक करें.</i></b></h2>
             <form className="form-container">
               <h1 style={{ textAlign: "center", fontSize: "20px", color: "blue" }}><u><b>Book Cab</b></u></h1><br />
               <div className="row mb-2">
@@ -344,7 +344,7 @@ function HomePage() {
                   </select>
                 </div>
               </div><br />
-              <Link to='#'><button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingConfirmationMessage" onClick={() => {
+              <Link to='#'><button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingConfirmationMessage" onClick={() => {
                 newBooking({
                   customer_name: bookingInput ? bookingInput.name : "",
                   customer_mobile: bookingInput ? bookingInput.mobile : "",
