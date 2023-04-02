@@ -612,7 +612,7 @@ function NewBooking() {
       <table className="table table-responsive-xl">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            {/* <th scope="col">#</th> */}
             <th scope="col">Name</th>
             <th scope="col">Mobile</th>
             <th scope="col">Travel Date</th>
@@ -623,7 +623,7 @@ function NewBooking() {
         <tbody>
           {fetchedData && fetchedData.newBookingData.length > 0 && fetchedData.newBookingData.map((item, i) => (
             <tr key={i + 1}>
-              <th scope="row">{i + 1}</th>
+              {/* <th scope="row">{i + 1}</th> */}
               <td>{item.customer_name}</td>
               <td>{item.customer_mobile}</td>
               <td>{item.travel_date}</td>
@@ -820,7 +820,7 @@ function ConfirmedBooking() {
       <table className="table table-responsive-xl">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            {/* <th scope="col">#</th> */}
             <th scope="col">Name</th>
             <th scope="col">Mobile</th>
             <th scope="col">Travel Date</th>
@@ -831,7 +831,7 @@ function ConfirmedBooking() {
         <tbody>
           {fetchedData && fetchedData.confirmedBookingData.length > 0 && fetchedData.confirmedBookingData.map((item, i) => (
             <tr key={i + 1}>
-              <th scope="row">{i + 1}</th>
+              {/* <th scope="row">{i + 1}</th> */}
               <td>{item.customer_name}</td>
               <td>{item.customer_mobile}</td>
               <td>{item.travel_date}</td>
@@ -908,7 +908,7 @@ function CancelledBooking() {
     )
   }
 
-  //pagination
+  //pagination******
   let itemPerPage = 10
   let totalItems = (bookingData.status === "fulfilled")?fetchedData.cancelledBookingData.length:0
   let totalPages = Math.ceil(totalItems / itemPerPage)
@@ -1012,7 +1012,7 @@ function CancelledBooking() {
       <table className="table table-responsive-xl">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            {/* <th scope="col">#</th> */}
             <th scope="col">Name</th>
             <th scope="col">Mobile</th>
             <th scope="col">Travel Date</th>
@@ -1023,7 +1023,7 @@ function CancelledBooking() {
         <tbody>
           {fetchedData && fetchedData.cancelledBookingData.length > 0 && fetchedData.cancelledBookingData.map((item, i) => (
             <tr key={i + 1}>
-              <th scope="row">{i + 1}</th>
+              {/* <th scope="row">{i + 1}</th> */}
               <td>{item.customer_name}</td>
               <td>{item.customer_mobile}</td>
               <td>{item.travel_date}</td>
