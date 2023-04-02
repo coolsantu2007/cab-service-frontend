@@ -77,7 +77,7 @@ const Footer = () => {
   return (
     <>
       {/*User signin form modal*/}
-      <div className="modal fade" id="adminSignInForm" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "50%", left: "20%" }}>
+      <div className="modal fade" id="adminSignInForm" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "80%", left: "10%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -199,7 +199,7 @@ const FooterAdmin = () => {
   return (
     <>
       {/*User signin form modal*/}
-      <div className="modal fade" id="adminLogout" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "40%", left: "30%" }}>
+      <div className="modal fade" id="adminLogout" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "60%", left: "10%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "red", color: "white" }}>
@@ -259,7 +259,7 @@ function HomePage() {
   return (
     <>
       {/*Modal for booking confirmation message*/}
-      <div className="modal fade" id="bookingConfirmationMessage" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "25%" }}>
+      <div className="modal fade" id="bookingConfirmationMessage" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "10%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -605,7 +605,10 @@ function NewBooking() {
       {(bookingData.status === "fulfilled") ? 
       <div>
         <HeaderAdmin /><br />
-      <h5>New Booking</h5>
+        <div style={{display: "flex"}}>
+        <h5>New Booking</h5>
+      <button style={{marginLeft: "5px"}} onClick={() => { return window.location.reload() }}>Refresh</button>
+        </div>
       <table className="table table-responsive-xl">
         <thead>
           <tr>
@@ -810,7 +813,10 @@ function ConfirmedBooking() {
 {(bookingData.status === "fulfilled") ? 
 <div>
 <HeaderAdmin /><br />
-      <h5>Confirmed Booking</h5>
+<div style={{display: "flex"}}>
+        <h5>Confirmed Booking</h5>
+      <button style={{marginLeft: "5px"}} onClick={() => { return window.location.reload() }}>Refresh</button>
+        </div>
       <table className="table table-responsive-xl">
         <thead>
           <tr>
@@ -999,7 +1005,10 @@ function CancelledBooking() {
 {(bookingData.status === "fulfilled") ? 
 <div>
 <HeaderAdmin /><br />
-      <h5>Cancelled Booking</h5>
+<div style={{display: "flex"}}>
+        <h5>Cancelled Booking</h5>
+      <button style={{marginLeft: "5px"}} onClick={() => { return window.location.reload() }}>Refresh</button>
+        </div>
       <table className="table table-responsive-xl">
         <thead>
           <tr>
