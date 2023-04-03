@@ -117,7 +117,7 @@ const Footer = () => {
                   setEmailError()
                 }
                 userLogin(loginData)
-                toast.success("Login successfull")
+                toast.success("Processing login request")
               }}>Signin</button>
             </div>
           </div>
@@ -533,7 +533,7 @@ function NewBooking() {
 
 
       {/*Modal for booking details*/}
-      <div className="modal fade" id="bookingDetails" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
+      <div className="modal fade" id="bookingDetails" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "15%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -714,7 +714,7 @@ function ConfirmedBooking() {
   return (
     <>
       {/*Modal for booking details*/}
-      <div className="modal fade" id="bookingDetails" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
+      <div className="modal fade" id="bookingDetails" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "15%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -921,7 +921,7 @@ function CancelledBooking() {
   return (
     <>
       {/*Modal for booking details*/}
-      <div className="modal fade" id="bookingDetails" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "30%" }}>
+      <div className="modal fade" id="bookingDetails" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{ width: "300px", left: "15%" }}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header" style={{ backgroundColor: "green", color: "white" }}>
@@ -990,7 +990,6 @@ function CancelledBooking() {
                     <label className="col-sm-12 col-form-label" style={{ color: "black" }}>{bookingDataByIdResponse.data && bookingDataByIdResponse.data.cancelledBookingData.cancellation_reason}</label>
                   </div>
                 </div>
-
                 <div className="row mb-2">
                   <label className="col-sm-7 col-form-label" style={{ color: "black" }}><b>Status</b></label>
                   <div className="col-sm-15">
